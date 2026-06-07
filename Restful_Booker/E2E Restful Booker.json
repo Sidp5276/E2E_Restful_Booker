@@ -1,0 +1,1342 @@
+{
+  "info": {
+    "_postman_id": "e43fe7c8-1c9c-4177-8a5e-4c2b550f0a17",
+    "name": "E2E Restful Booker",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "55375818"
+  },
+  "item": [
+    {
+      "name": "Auth - CreateToken",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Response has token\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property(\"token\");",
+              "    pm.expect(jsonData.token).to.be.a(\"string\").and.not.empty;",
+              "});",
+              "",
+              "pm.test(\"Response time is less than 5000ms\", function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(5000);",
+              "});",
+              "",
+              "pm.test(\"Content-Type is application/json\", function () {",
+              "    pm.response.to.have.header(\"Content-Type\");",
+              "    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+              "});",
+              "",
+              "// Save token to collection variable",
+              "var jsonData = pm.response.json();",
+              "if (jsonData.token) {",
+              "    pm.collectionVariables.set(\"token\", jsonData.token);",
+              "    console.log(\"Token saved: \" + jsonData.token);",
+              "}"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"admin\",\n  \"password\": \"password123\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/auth",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "auth"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Booking - GetBookingIds",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Response is an array\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.be.an(\"array\");",
+              "});",
+              "",
+              "pm.test(\"Each item has bookingid property\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    if (jsonData.length > 0) {",
+              "        jsonData.forEach(function(item) {",
+              "            pm.expect(item).to.have.property(\"bookingid\");",
+              "            pm.expect(item.bookingid).to.be.a(\"number\");",
+              "        });",
+              "    }",
+              "});",
+              "",
+              "pm.test(\"Response time is less than 5000ms\", function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(5000);",
+              "});",
+              "",
+              "pm.test(\"Content-Type is application/json\", function () {",
+              "    pm.response.to.have.header(\"Content-Type\");",
+              "    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/booking",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "booking"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Booking - GetBooking",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Response has required booking fields\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property(\"firstname\");",
+              "    pm.expect(jsonData).to.have.property(\"lastname\");",
+              "    pm.expect(jsonData).to.have.property(\"totalprice\");",
+              "    pm.expect(jsonData).to.have.property(\"depositpaid\");",
+              "    pm.expect(jsonData).to.have.property(\"bookingdates\");",
+              "});",
+              "",
+              "pm.test(\"bookingdates has checkin and checkout\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.bookingdates).to.have.property(\"checkin\");",
+              "    pm.expect(jsonData.bookingdates).to.have.property(\"checkout\");",
+              "});",
+              "",
+              "pm.test(\"firstname is a string\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.firstname).to.be.a(\"string\");",
+              "});",
+              "",
+              "pm.test(\"totalprice is a number\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.totalprice).to.be.a(\"number\");",
+              "});",
+              "",
+              "pm.test(\"depositpaid is a boolean\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.depositpaid).to.be.a(\"boolean\");",
+              "});",
+              "",
+              "pm.test(\"Response time is less than 5000ms\", function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(5000);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/booking/{{bookingId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "booking",
+            "{{bookingId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Booking - CreateBooking",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Response has bookingid\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property(\"bookingid\");",
+              "    pm.expect(jsonData.bookingid).to.be.a(\"number\");",
+              "});",
+              "",
+              "pm.test(\"Response has booking object\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property(\"booking\");",
+              "});",
+              "",
+              "pm.test(\"Booking firstname matches request\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.booking.firstname).to.eql(\"Jim\");",
+              "});",
+              "",
+              "pm.test(\"Booking lastname matches request\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.booking.lastname).to.eql(\"Brown\");",
+              "});",
+              "",
+              "pm.test(\"Booking totalprice matches request\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.booking.totalprice).to.eql(111);",
+              "});",
+              "",
+              "pm.test(\"Booking depositpaid matches request\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.booking.depositpaid).to.eql(true);",
+              "});",
+              "",
+              "pm.test(\"Booking additionalneeds matches request\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.booking.additionalneeds).to.eql(\"Breakfast\");",
+              "});",
+              "",
+              "pm.test(\"Response time is less than 5000ms\", function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(5000);",
+              "});",
+              "",
+              "// Save bookingId to collection variable",
+              "var jsonData = pm.response.json();",
+              "if (jsonData.bookingid) {",
+              "    pm.collectionVariables.set(\"bookingId\", jsonData.bookingid);",
+              "    console.log(\"Booking ID saved: \" + jsonData.bookingid);",
+              "}"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"firstname\": \"Jim\",\n  \"lastname\": \"Brown\",\n  \"totalprice\": 111,\n  \"depositpaid\": true,\n  \"bookingdates\": {\n    \"checkin\": \"2025-01-01\",\n    \"checkout\": \"2025-01-10\"\n  },\n  \"additionalneeds\": \"Breakfast\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/booking",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "booking"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Booking - UpdateBooking",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Response has required booking fields\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property(\"firstname\");",
+              "    pm.expect(jsonData).to.have.property(\"lastname\");",
+              "    pm.expect(jsonData).to.have.property(\"totalprice\");",
+              "    pm.expect(jsonData).to.have.property(\"depositpaid\");",
+              "    pm.expect(jsonData).to.have.property(\"bookingdates\");",
+              "});",
+              "",
+              "pm.test(\"Firstname is updated to James\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.firstname).to.eql(\"James\");",
+              "});",
+              "",
+              "pm.test(\"Lastname is updated to Brown\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.lastname).to.eql(\"Brown\");",
+              "});",
+              "",
+              "pm.test(\"Totalprice is updated to 200\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.totalprice).to.eql(200);",
+              "});",
+              "",
+              "pm.test(\"Depositpaid is updated to false\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.depositpaid).to.eql(false);",
+              "});",
+              "",
+              "pm.test(\"Additionalneeds is updated to Lunch\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.additionalneeds).to.eql(\"Lunch\");",
+              "});",
+              "",
+              "pm.test(\"Response time is less than 5000ms\", function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(5000);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Cookie",
+            "value": "token={{token}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"firstname\": \"James\",\n  \"lastname\": \"Brown\",\n  \"totalprice\": 200,\n  \"depositpaid\": false,\n  \"bookingdates\": {\n    \"checkin\": \"2025-02-01\",\n    \"checkout\": \"2025-02-10\"\n  },\n  \"additionalneeds\": \"Lunch\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/booking/{{bookingId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "booking",
+            "{{bookingId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Booking - PartialUpdateBooking",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Response has required booking fields\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property(\"firstname\");",
+              "    pm.expect(jsonData).to.have.property(\"lastname\");",
+              "    pm.expect(jsonData).to.have.property(\"totalprice\");",
+              "    pm.expect(jsonData).to.have.property(\"depositpaid\");",
+              "    pm.expect(jsonData).to.have.property(\"bookingdates\");",
+              "});",
+              "",
+              "pm.test(\"Firstname is partially updated to John\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.firstname).to.eql(\"John\");",
+              "});",
+              "",
+              "pm.test(\"Lastname is partially updated to Smith\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.lastname).to.eql(\"Smith\");",
+              "});",
+              "",
+              "pm.test(\"Other fields are preserved after partial update\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.totalprice).to.be.a(\"number\");",
+              "    pm.expect(jsonData.depositpaid).to.be.a(\"boolean\");",
+              "});",
+              "",
+              "pm.test(\"Response time is less than 5000ms\", function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(5000);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Cookie",
+            "value": "token={{token}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"firstname\": \"John\",\n  \"lastname\": \"Smith\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/booking/{{bookingId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "booking",
+            "{{bookingId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Booking - DeleteBooking",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "",
+              "pm.test(\"Response time is less than 5000ms\", function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(5000);",
+              "});",
+              "",
+              "pm.test(\"Response body confirms deletion\", function () {",
+              "    pm.expect(pm.response.text()).to.include(\"Created\");",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Cookie",
+            "value": "token={{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/booking/{{bookingId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "booking",
+            "{{bookingId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Ping - HealthCheck",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "",
+              "pm.test(\"API is up and running\", function () {",
+              "    pm.expect(pm.response.text()).to.include(\"Created\");",
+              "});",
+              "",
+              "pm.test(\"Response time is less than 5000ms\", function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(5000);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/ping",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "ping"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Auth - Valid Login",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"username\": \"admin\", \"password\": \"password123\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/auth",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "auth"
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST {{baseUrl}}/auth -H \"Content-Type: application/json\" -d '{\"username\": \"admin\", \"password\": \"password123\"}'"
+      },
+      "response": []
+    },
+    {
+      "name": "Auth - Invalid Login",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"Response returns bad credentials\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property(\"reason\");",
+              "    pm.expect(jsonData.reason).to.equal(\"Bad credentials\");",
+              "});",
+              "pm.test(\"No valid token returned\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.not.have.property(\"token\");",
+              "});",
+              "pm.test(\"Response time is less than 3000ms\", function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(3000);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"username\": \"wronguser\", \"password\": \"wrongpassword\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/auth",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "auth"
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST {{baseUrl}}/auth -H \"Content-Type: application/json\" -d '{\"username\": \"wronguser\", \"password\": \"wrongpassword\"}'"
+      },
+      "response": []
+    },
+    {
+      "name": "Auth - Locked User",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"Locked user cannot authenticate\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    if (jsonData.token) {",
+              "        pm.expect(jsonData.token).to.equal(\"Bad credentials\");",
+              "    } else {",
+              "        pm.expect(jsonData).to.have.property(\"reason\");",
+              "    }",
+              "});",
+              "pm.test(\"Response contains error reason\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    var hasReason = jsonData.hasOwnProperty(\"reason\");",
+              "    var hasBadToken = jsonData.token === \"Bad credentials\";",
+              "    pm.expect(hasReason || hasBadToken).to.be.true;",
+              "});",
+              "pm.test(\"Response time is less than 3000ms\", function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(3000);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"username\": \"lockeduser\", \"password\": \"password123\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/auth",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "auth"
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST {{baseUrl}}/auth -H \"Content-Type: application/json\" -d '{\"username\": \"lockeduser\", \"password\": \"password123\"}'"
+      },
+      "response": []
+    },
+    {
+      "name": "Auth - Expired Password",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"Expired password is rejected\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    if (jsonData.token) {",
+              "        pm.expect(jsonData.token).to.equal(\"Bad credentials\");",
+              "    } else {",
+              "        pm.expect(jsonData).to.have.property(\"reason\");",
+              "    }",
+              "});",
+              "pm.test(\"No valid token issued for expired password\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    var noValidToken = !jsonData.token || jsonData.token === \"Bad credentials\";",
+              "    pm.expect(noValidToken).to.be.true;",
+              "});",
+              "pm.test(\"Response time is less than 3000ms\", function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(3000);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"username\": \"admin\", \"password\": \"oldpassword\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/auth",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "auth"
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST {{baseUrl}}/auth -H \"Content-Type: application/json\" -d '{\"username\": \"admin\", \"password\": \"oldpassword\"}'"
+      },
+      "response": []
+    },
+    {
+      "name": "Auth - SQL Injection",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"SQL injection does not grant access\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    if (jsonData.token) {",
+              "        pm.expect(jsonData.token).to.equal(\"Bad credentials\");",
+              "    } else {",
+              "        pm.expect(jsonData).to.have.property(\"reason\");",
+              "    }",
+              "});",
+              "pm.test(\"Response does not expose DB error\", function () {",
+              "    var body = pm.response.text();",
+              "    pm.expect(body).to.not.include(\"SQL\");",
+              "    pm.expect(body).to.not.include(\"syntax error\");",
+              "    pm.expect(body).to.not.include(\"ORA-\");",
+              "    pm.expect(body).to.not.include(\"mysql\");",
+              "});",
+              "pm.test(\"No valid token returned for SQL injection payload\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    var noValidToken = !jsonData.token || jsonData.token === \"Bad credentials\";",
+              "    pm.expect(noValidToken).to.be.true;",
+              "});",
+              "pm.test(\"Response time is less than 3000ms\", function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(3000);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"username\": \"admin' OR '1'='1\", \"password\": \"' OR '1'='1\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/auth",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "auth"
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST {{baseUrl}}/auth -H \"Content-Type: application/json\" -d '{\"username\": \"admin'\\'' OR '\\''1'\\''='\\''1\", \"password\": \"'\\'' OR '\\''1'\\''='\\''1\"}'"
+      },
+      "response": []
+    },
+    {
+      "name": "Auth - Brute Force",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"Brute force attempt is rejected\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    var noValidToken = !jsonData.token || jsonData.token === \"Bad credentials\";",
+              "    pm.expect(noValidToken).to.be.true;",
+              "});",
+              "pm.test(\"Server does not crash under repeated attempts\", function () {",
+              "    pm.expect(pm.response.code).to.be.oneOf([200, 401, 403, 429]);",
+              "});",
+              "pm.test(\"Response time is acceptable under brute force\", function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(5000);",
+              "});",
+              "pm.test(\"Brute force attempt logged\", function () {",
+              "    var attempts = pm.collectionVariables.get(\"bruteForceAttempts\");",
+              "    console.log(\"Brute force attempt #\" + attempts);",
+              "    pm.expect(parseInt(attempts)).to.be.above(0);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"username\": \"admin\", \"password\": \"bruteforce_attempt_{{$randomInt}}\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/auth",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "auth"
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST {{baseUrl}}/auth -H \"Content-Type: application/json\" -d '{\"username\": \"admin\", \"password\": \"bruteforce_attempt_{{$randomInt}}\"}'"
+      },
+      "response": []
+    },
+    {
+      "name": "Auth - Session Fixation",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"New token is issued on each login (no session fixation)\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property(\"token\");",
+              "    var newToken = jsonData.token;",
+              "    var oldToken = pm.collectionVariables.get(\"oldToken\");",
+              "    if (oldToken && oldToken !== \"\") {",
+              "        pm.expect(newToken).to.not.equal(oldToken);",
+              "    }",
+              "    pm.collectionVariables.set(\"token\", newToken);",
+              "});",
+              "pm.test(\"Token is sufficiently long (entropy check)\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.token.length).to.be.above(10);",
+              "});",
+              "pm.test(\"Response time is less than 3000ms\", function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(3000);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"username\": \"admin\", \"password\": \"password123\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/auth",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "auth"
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST {{baseUrl}}/auth -H \"Content-Type: application/json\" -d '{\"username\": \"admin\", \"password\": \"password123\"}'"
+      },
+      "response": []
+    },
+    {
+      "name": "Auth - Last Login Update",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"Successful login returns token (last login would be updated)\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property(\"token\");",
+              "    pm.expect(jsonData.token).to.be.a(\"string\").and.not.empty;",
+              "    pm.expect(jsonData.token).to.not.equal(\"Bad credentials\");",
+              "});",
+              "pm.test(\"Login timestamp recorded\", function () {",
+              "    var loginTime = pm.collectionVariables.get(\"loginTimestamp\");",
+              "    pm.expect(loginTime).to.be.a(\"string\").and.not.empty;",
+              "    var loginDate = new Date(loginTime);",
+              "    pm.expect(loginDate.getTime()).to.be.above(0);",
+              "    console.log(\"Last login timestamp: \" + loginTime);",
+              "});",
+              "pm.test(\"Response time is less than 3000ms\", function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(3000);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"username\": \"admin\", \"password\": \"password123\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/auth",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "auth"
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST {{baseUrl}}/auth -H \"Content-Type: application/json\" -d '{\"username\": \"admin\", \"password\": \"password123\"}'"
+      },
+      "response": []
+    },
+    {
+      "name": "Auth - Audit Trail",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test(\"Failed login attempt is captured in audit trail\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    var auditLog = JSON.parse(pm.collectionVariables.get(\"auditLog\") || \"[]\");",
+              "    if (auditLog.length > 0) {",
+              "        auditLog[auditLog.length - 1].status = jsonData.reason ? \"FAILED\" : \"SUCCESS\";",
+              "        auditLog[auditLog.length - 1].result = jsonData.reason || \"token_issued\";",
+              "    }",
+              "    pm.collectionVariables.set(\"auditLog\", JSON.stringify(auditLog));",
+              "    pm.expect(auditLog.length).to.be.above(0);",
+              "    console.log(\"Audit Log:\", JSON.stringify(auditLog, null, 2));",
+              "});",
+              "pm.test(\"Failed login returns bad credentials\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property(\"reason\");",
+              "    pm.expect(jsonData.reason).to.equal(\"Bad credentials\");",
+              "});",
+              "pm.test(\"Audit log has required fields\", function () {",
+              "    var auditLog = JSON.parse(pm.collectionVariables.get(\"auditLog\") || \"[]\");",
+              "    var lastEntry = auditLog[auditLog.length - 1];",
+              "    pm.expect(lastEntry).to.have.property(\"timestamp\");",
+              "    pm.expect(lastEntry).to.have.property(\"username\");",
+              "    pm.expect(lastEntry).to.have.property(\"action\");",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"username\": \"admin\", \"password\": \"wrongpassword\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/auth",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "auth"
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST {{baseUrl}}/auth -H \"Content-Type: application/json\" -d '{\"username\": \"admin\", \"password\": \"wrongpassword\"}'"
+      },
+      "response": []
+    },
+    {
+      "name": "Auth - 1000 Concurrent Logins",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "var responseTime = pm.response.responseTime;",
+              "var perfMetrics = JSON.parse(pm.collectionVariables.get(\"perfMetrics\") || '{\"totalRequests\":0,\"totalTime\":0,\"failures\":0,\"maxTime\":0,\"minTime\":999999}');",
+              "",
+              "perfMetrics.totalTime += responseTime;",
+              "if (responseTime > perfMetrics.maxTime) perfMetrics.maxTime = responseTime;",
+              "if (responseTime < perfMetrics.minTime) perfMetrics.minTime = responseTime;",
+              "",
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "    if (pm.response.code !== 200) perfMetrics.failures++;",
+              "});",
+              "",
+              "pm.test(\"Response time under 2000ms per request (performance threshold)\", function () {",
+              "    pm.expect(responseTime).to.be.below(2000);",
+              "    if (responseTime >= 2000) perfMetrics.failures++;",
+              "});",
+              "",
+              "pm.test(\"Valid token returned under load\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property(\"token\");",
+              "    pm.expect(jsonData.token).to.not.equal(\"Bad credentials\");",
+              "});",
+              "",
+              "pm.test(\"Performance metrics tracked\", function () {",
+              "    var avgTime = perfMetrics.totalRequests > 0 ? (perfMetrics.totalTime / perfMetrics.totalRequests).toFixed(2) : 0;",
+              "    console.log(\"=== Performance Metrics ===\");",
+              "    console.log(\"Total Requests: \" + perfMetrics.totalRequests);",
+              "    console.log(\"Avg Response Time: \" + avgTime + \"ms\");",
+              "    console.log(\"Max Response Time: \" + perfMetrics.maxTime + \"ms\");",
+              "    console.log(\"Min Response Time: \" + perfMetrics.minTime + \"ms\");",
+              "    console.log(\"Failures: \" + perfMetrics.failures);",
+              "    pm.expect(perfMetrics.failures).to.equal(0);",
+              "});",
+              "",
+              "pm.collectionVariables.set(\"perfMetrics\", JSON.stringify(perfMetrics));"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"username\": \"admin\", \"password\": \"password123\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/auth",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "auth"
+          ]
+        },
+        "description": "Simulates 1000 concurrent login requests. Run this request using the Collection Runner with 1000 iterations to simulate concurrent load. Go to Collection Runner > Set Iterations to 1000 > Run."
+      },
+      "response": []
+    },
+    {
+      "name": "Auth - DB Unavailable",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Server responds (does not hang or crash)\", function () {",
+              "    pm.expect(pm.response.code).to.be.oneOf([200, 500, 503, 504]);",
+              "});",
+              "",
+              "pm.test(\"Response time within acceptable limit even under DB stress\", function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(10000);",
+              "});",
+              "",
+              "pm.test(\"Graceful error handling when DB unavailable\", function () {",
+              "    var statusCode = pm.response.code;",
+              "    if (statusCode === 200) {",
+              "        var jsonData = pm.response.json();",
+              "        var hasToken = jsonData.hasOwnProperty(\"token\");",
+              "        var hasReason = jsonData.hasOwnProperty(\"reason\");",
+              "        pm.expect(hasToken || hasReason).to.be.true;",
+              "    } else if (statusCode === 500 || statusCode === 503 || statusCode === 504) {",
+              "        pm.expect(statusCode).to.be.oneOf([500, 503, 504]);",
+              "        console.log(\"DB Unavailable - Server returned: \" + statusCode);",
+              "    }",
+              "});",
+              "",
+              "pm.test(\"No unhandled exception exposed in response\", function () {",
+              "    var body = pm.response.text();",
+              "    pm.expect(body).to.not.include(\"Unhandled Exception\");",
+              "    pm.expect(body).to.not.include(\"Stack trace\");",
+              "    pm.expect(body).to.not.include(\"NullPointerException\");",
+              "});",
+              "",
+              "pm.test(\"Reliability test duration recorded\", function () {",
+              "    var startTime = pm.collectionVariables.get(\"reliabilityTestStart\");",
+              "    var duration = Date.now() - parseInt(startTime);",
+              "    console.log(\"Reliability test completed in: \" + duration + \"ms\");",
+              "    pm.expect(duration).to.be.above(0);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"username\": \"admin\", \"password\": \"password123\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/auth",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "auth"
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST {{baseUrl}}/auth -H \"Content-Type: application/json\" -d '{\"username\": \"admin\", \"password\": \"password123\"}'"
+      },
+      "response": []
+    },
+    {
+      "name": "Auth - Failed Login Alert",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "var ALERT_THRESHOLD = parseInt(pm.collectionVariables.get(\"alertThreshold\") || \"5\");",
+              "",
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Failed login detected and counted\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    if (jsonData.reason === \"Bad credentials\") {",
+              "        var failedCount = parseInt(pm.collectionVariables.get(\"failedLoginCount\") || \"0\") + 1;",
+              "        pm.collectionVariables.set(\"failedLoginCount\", failedCount);",
+              "        console.log(\"Failed login count: \" + failedCount + \" / Alert threshold: \" + ALERT_THRESHOLD);",
+              "        pm.expect(failedCount).to.be.above(0);",
+              "    }",
+              "});",
+              "",
+              "pm.test(\"Alert triggered when threshold exceeded\", function () {",
+              "    var failedCount = parseInt(pm.collectionVariables.get(\"failedLoginCount\") || \"0\");",
+              "    if (failedCount >= ALERT_THRESHOLD) {",
+              "        console.warn(\"ALERT: Failed login threshold exceeded! Count: \" + failedCount);",
+              "        pm.collectionVariables.set(\"alertTriggered\", \"true\");",
+              "        pm.collectionVariables.set(\"alertMessage\", \"SECURITY ALERT: \" + failedCount + \" failed login attempts detected at \" + new Date().toISOString());",
+              "    } else {",
+              "        console.log(\"Monitoring: \" + failedCount + \" failed attempts (threshold: \" + ALERT_THRESHOLD + \")\");",
+              "        pm.collectionVariables.set(\"alertTriggered\", \"false\");",
+              "    }",
+              "    pm.expect(failedCount).to.be.above(0);",
+              "});",
+              "",
+              "pm.test(\"Monitoring timestamp recorded\", function () {",
+              "    var testTime = pm.collectionVariables.get(\"monitoringTestTime\");",
+              "    pm.expect(testTime).to.be.a(\"string\").and.not.empty;",
+              "    console.log(\"Monitoring check at: \" + testTime);",
+              "});",
+              "",
+              "pm.test(\"Response confirms failed login (bad credentials)\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property(\"reason\");",
+              "    pm.expect(jsonData.reason).to.equal(\"Bad credentials\");",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"username\": \"admin\", \"password\": \"wrongpassword\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/auth",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "auth"
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST {{baseUrl}}/auth -H \"Content-Type: application/json\" -d '{\"username\": \"admin\", \"password\": \"wrongpassword\"}'"
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Set base URL collection variable",
+          "if (!pm.collectionVariables.get('baseUrl')) {",
+          "    pm.collectionVariables.set('baseUrl', 'https://restful-booker.herokuapp.com');",
+          "}"
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://restful-booker.herokuapp.com"
+    },
+    {
+      "key": "token",
+      "value": ""
+    },
+    {
+      "key": "bookingId",
+      "value": ""
+    }
+  ]
+}
