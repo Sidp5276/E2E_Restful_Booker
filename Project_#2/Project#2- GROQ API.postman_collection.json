@@ -1,0 +1,810 @@
+{
+  "info": {
+    "_postman_id": "52cb6d5a-255d-49a7-b4ba-ecda5827b11d",
+    "name": "Project#2- GROQ API",
+    "description": "[https://console.groq.com/docs/api-reference#chat-create](https://console.groq.com/docs/api-reference#chat-create)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "55375818"
+  },
+  "item": [
+    {
+      "name": "https://api.groq.com/openai/v1/responses",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer "
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"model\": \"openai/gpt-oss-20b\",\r\n    \"input\": \"Explain the importance REST API\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "API responses",
+          "host": [
+            "API responses"
+          ]
+        },
+        "description": "Generated from cURL: \r\ncurl -X POST https://api.groq.com/openai/v1/responses \\\r\n-H \"Authorization: Bearer $GROQ_API_KEY\" \\\r\n-H \"Content-Type: application/json\" \\\r\n-d '{\r\n    \"model\": \"openai/gpt-oss-20b\",\r\n    \"input\": \"Explain the importance of fast language models\"\r\n}'"
+      },
+      "response": []
+    },
+    {
+      "name": "Create Chat Completion",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{GROQ_API_KEY}}",
+            "disabled": false
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"model\":\"llama-3.3-70b-versatile\",\"messages\":[{\"role\":\"user\",\"content\":\"Explain the importance of fast language models\"}]}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://api.groq.com/openai/v1/chat/completions",
+          "protocol": "https",
+          "host": [
+            "api",
+            "groq",
+            "com"
+          ],
+          "path": [
+            "openai",
+            "v1",
+            "chat",
+            "completions"
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST https://api.groq.com/openai/v1/chat/completions -H \"Authorization: Bearer {{GROQ_API_KEY}}\" -H \"Content-Type: application/json\" -d '{\"model\":\"llama-3.3-70b-versatile\",\"messages\":[{\"role\":\"user\",\"content\":\"Explain the importance of fast language models\"}]}'"
+      },
+      "response": []
+    },
+    {
+      "name": "Create Response",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{GROQ_API_KEY}}",
+            "disabled": false
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"model\":\"meta-llama/llama-4-scout-17b-16e-instruct\",\"input\":[{\"role\":\"user\",\"content\":[{\"type\":\"input_text\",\"text\":\"Explain the importance of fast language models\"}]}]}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://api.groq.com/openai/v1/responses",
+          "protocol": "https",
+          "host": [
+            "api",
+            "groq",
+            "com"
+          ],
+          "path": [
+            "openai",
+            "v1",
+            "responses"
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST https://api.groq.com/openai/v1/responses -H \"Authorization: Bearer {{GROQ_API_KEY}}\" -H \"Content-Type: application/json\" -d '{\"model\":\"meta-llama/llama-4-scout-17b-16e-instruct\",\"input\":[{\"role\":\"user\",\"content\":[{\"type\":\"input_text\",\"text\":\"Explain the importance of fast language models\"}]}]}'"
+      },
+      "response": []
+    },
+    {
+      "name": "Create Transcription",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{GROQ_API_KEY}}",
+            "disabled": false
+          }
+        ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "type": "file",
+              "key": "file",
+              "src": "./sample_audio.m4a"
+            },
+            {
+              "type": "text",
+              "key": "model",
+              "value": "whisper-large-v3"
+            }
+          ]
+        },
+        "url": {
+          "raw": "https://api.groq.com/openai/v1/audio/transcriptions",
+          "protocol": "https",
+          "host": [
+            "api",
+            "groq",
+            "com"
+          ],
+          "path": [
+            "openai",
+            "v1",
+            "audio",
+            "transcriptions"
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST https://api.groq.com/openai/v1/audio/transcriptions -H \"Authorization: Bearer {{GROQ_API_KEY}}\" -F \"file=@./sample_audio.m4a\" -F \"model=whisper-large-v3\""
+      },
+      "response": []
+    },
+    {
+      "name": "Create Translation",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{GROQ_API_KEY}}",
+            "disabled": false
+          }
+        ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "type": "file",
+              "key": "file",
+              "src": "./sample_audio.m4a"
+            },
+            {
+              "type": "text",
+              "key": "model",
+              "value": "whisper-large-v3"
+            }
+          ]
+        },
+        "url": {
+          "raw": "https://api.groq.com/openai/v1/audio/translations",
+          "protocol": "https",
+          "host": [
+            "api",
+            "groq",
+            "com"
+          ],
+          "path": [
+            "openai",
+            "v1",
+            "audio",
+            "translations"
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST https://api.groq.com/openai/v1/audio/translations -H \"Authorization: Bearer {{GROQ_API_KEY}}\" -F \"file=@./sample_audio.m4a\" -F \"model=whisper-large-v3\""
+      },
+      "response": []
+    },
+    {
+      "name": "Create Speech",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{GROQ_API_KEY}}",
+            "disabled": false
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"model\": \"playai-tts\", \"input\": \"I love building and shipping new features for our users!\", \"voice\": \"Fritz-PlayAI\", \"response_format\": \"wav\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://api.groq.com/openai/v1/audio/speech",
+          "protocol": "https",
+          "host": [
+            "api",
+            "groq",
+            "com"
+          ],
+          "path": [
+            "openai",
+            "v1",
+            "audio",
+            "speech"
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST https://api.groq.com/openai/v1/audio/speech -H \"Authorization: Bearer {{GROQ_API_KEY}}\" -H \"Content-Type: application/json\" -d \"{\\\"model\\\": \\\"playai-tts\\\", \\\"input\\\": \\\"I love building and shipping new features for our users!\\\", \\\"voice\\\": \\\"Fritz-PlayAI\\\", \\\"response_format\\\": \\\"wav\\\"}\""
+      },
+      "response": []
+    },
+    {
+      "name": "List Models",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{GROQ_API_KEY}}",
+            "disabled": false
+          }
+        ],
+        "url": {
+          "raw": "https://api.groq.com/openai/v1/models",
+          "protocol": "https",
+          "host": [
+            "api",
+            "groq",
+            "com"
+          ],
+          "path": [
+            "openai",
+            "v1",
+            "models"
+          ]
+        },
+        "description": "Generated from cURL: curl -X GET \"https://api.groq.com/openai/v1/models\" -H \"Authorization: Bearer {{GROQ_API_KEY}}\""
+      },
+      "response": []
+    },
+    {
+      "name": "Retrieve Model",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{GROQ_API_KEY}}",
+            "disabled": false
+          }
+        ],
+        "url": {
+          "raw": "https://api.groq.com/openai/v1/models/{{model_id}}",
+          "protocol": "https",
+          "host": [
+            "api",
+            "groq",
+            "com"
+          ],
+          "path": [
+            "openai",
+            "v1",
+            "models",
+            "{{model_id}}"
+          ]
+        },
+        "description": "Generated from cURL: curl -X GET \"https://api.groq.com/openai/v1/models/{{model_id}}\" -H \"Authorization: Bearer {{GROQ_API_KEY}}\""
+      },
+      "response": []
+    },
+    {
+      "name": "Create Batch",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{GROQ_API_KEY}}",
+            "disabled": false
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"input_file_id\": \"file_01jh6x76wtemjr74t1fh0faj5t\", \"endpoint\": \"/v1/chat/completions\", \"completion_window\": \"24h\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://api.groq.com/openai/v1/batches",
+          "protocol": "https",
+          "host": [
+            "api",
+            "groq",
+            "com"
+          ],
+          "path": [
+            "openai",
+            "v1",
+            "batches"
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST https://api.groq.com/openai/v1/batches -H \"Authorization: Bearer {{GROQ_API_KEY}}\" -H \"Content-Type: application/json\" -d '{\"input_file_id\": \"file_01jh6x76wtemjr74t1fh0faj5t\", \"endpoint\": \"/v1/chat/completions\", \"completion_window\": \"24h\"}'"
+      },
+      "response": []
+    },
+    {
+      "name": "Retrieve Batch",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{GROQ_API_KEY}}",
+            "disabled": false
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "url": {
+          "raw": "https://api.groq.com/openai/v1/batches/:batch_id",
+          "protocol": "https",
+          "host": [
+            "api",
+            "groq",
+            "com"
+          ],
+          "path": [
+            "openai",
+            "v1",
+            "batches",
+            ":batch_id"
+          ],
+          "variable": [
+            {
+              "key": "batch_id",
+              "value": "batch_01jh6xa7reempvjyh6n3yst2zw"
+            }
+          ]
+        },
+        "description": "Generated from cURL: curl -X GET https://api.groq.com/openai/v1/batches/:batch_id -H \"Authorization: Bearer {{GROQ_API_KEY}}\" -H \"Content-Type: application/json\""
+      },
+      "response": []
+    },
+    {
+      "name": "List Batches",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{GROQ_API_KEY}}",
+            "disabled": false
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "url": {
+          "raw": "https://api.groq.com/openai/v1/batches",
+          "protocol": "https",
+          "host": [
+            "api",
+            "groq",
+            "com"
+          ],
+          "path": [
+            "openai",
+            "v1",
+            "batches"
+          ]
+        },
+        "description": "Generated from cURL: curl -X GET https://api.groq.com/openai/v1/batches -H \"Authorization: Bearer {{GROQ_API_KEY}}\" -H \"Content-Type: application/json\""
+      },
+      "response": []
+    },
+    {
+      "name": "Cancel Batch",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{GROQ_API_KEY}}",
+            "disabled": false
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "url": {
+          "raw": "https://api.groq.com/openai/v1/batches/:batch_id/cancel",
+          "protocol": "https",
+          "host": [
+            "api",
+            "groq",
+            "com"
+          ],
+          "path": [
+            "openai",
+            "v1",
+            "batches",
+            ":batch_id",
+            "cancel"
+          ],
+          "variable": [
+            {
+              "key": "batch_id"
+            }
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST https://api.groq.com/openai/v1/batches/:batch_id/cancel -H \"Authorization: Bearer {{GROQ_API_KEY}}\" -H \"Content-Type: application/json\""
+      },
+      "response": []
+    },
+    {
+      "name": "Upload File",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{GROQ_API_KEY}}",
+            "disabled": false
+          }
+        ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "type": "text",
+              "key": "purpose",
+              "value": "batch"
+            },
+            {
+              "type": "file",
+              "key": "file",
+              "src": "batch_file.jsonl"
+            }
+          ]
+        },
+        "url": {
+          "raw": "https://api.groq.com/openai/v1/files",
+          "protocol": "https",
+          "host": [
+            "api",
+            "groq",
+            "com"
+          ],
+          "path": [
+            "openai",
+            "v1",
+            "files"
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST https://api.groq.com/openai/v1/files -H \"Authorization: Bearer {{GROQ_API_KEY}}\" -F \"purpose=batch\" -F \"file=@batch_file.jsonl\""
+      },
+      "response": []
+    },
+    {
+      "name": "List Files",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{GROQ_API_KEY}}",
+            "disabled": false
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "url": {
+          "raw": "https://api.groq.com/openai/v1/files",
+          "protocol": "https",
+          "host": [
+            "api",
+            "groq",
+            "com"
+          ],
+          "path": [
+            "openai",
+            "v1",
+            "files"
+          ]
+        },
+        "description": "Generated from cURL: curl -X GET https://api.groq.com/openai/v1/files -H \"Authorization: Bearer {{GROQ_API_KEY}}\" -H \"Content-Type: application/json\""
+      },
+      "response": []
+    },
+    {
+      "name": "Retrieve File",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{GROQ_API_KEY}}",
+            "disabled": false
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "url": {
+          "raw": "https://api.groq.com/openai/v1/files/{{file_id}}",
+          "protocol": "https",
+          "host": [
+            "api",
+            "groq",
+            "com"
+          ],
+          "path": [
+            "openai",
+            "v1",
+            "files",
+            "{{file_id}}"
+          ]
+        },
+        "description": "Generated from cURL: curl -X GET https://api.groq.com/openai/v1/files/{{file_id}} -H \"Authorization: Bearer {{GROQ_API_KEY}}\" -H \"Content-Type: application/json\""
+      },
+      "response": []
+    },
+    {
+      "name": "Download File",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{GROQ_API_KEY}}",
+            "disabled": false
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "url": {
+          "raw": "https://api.groq.com/openai/v1/files/{{file_id}}/content",
+          "protocol": "https",
+          "host": [
+            "api",
+            "groq",
+            "com"
+          ],
+          "path": [
+            "openai",
+            "v1",
+            "files",
+            "{{file_id}}",
+            "content"
+          ]
+        },
+        "description": "Generated from cURL: curl -X GET https://api.groq.com/openai/v1/files/{{file_id}}/content -H \"Authorization: Bearer {{GROQ_API_KEY}}\" -H \"Content-Type: application/json\""
+      },
+      "response": []
+    },
+    {
+      "name": "Delete File",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{GROQ_API_KEY}}",
+            "disabled": false
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "url": {
+          "raw": "https://api.groq.com/openai/v1/files/{{file_id}}",
+          "protocol": "https",
+          "host": [
+            "api",
+            "groq",
+            "com"
+          ],
+          "path": [
+            "openai",
+            "v1",
+            "files",
+            "{{file_id}}"
+          ]
+        },
+        "description": "Generated from cURL: curl -X DELETE https://api.groq.com/openai/v1/files/{{file_id}} -H \"Authorization: Bearer {{GROQ_API_KEY}}\" -H \"Content-Type: application/json\""
+      },
+      "response": []
+    },
+    {
+      "name": "List Fine Tunings",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{GROQ_API_KEY}}",
+            "disabled": false
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "url": {
+          "raw": "https://api.groq.com/v1/fine_tunings",
+          "protocol": "https",
+          "host": [
+            "api",
+            "groq",
+            "com"
+          ],
+          "path": [
+            "v1",
+            "fine_tunings"
+          ]
+        },
+        "description": "Generated from cURL: curl -X GET \"https://api.groq.com/v1/fine_tunings\" -H \"Authorization: Bearer {{GROQ_API_KEY}}\" -H \"Content-Type: application/json\""
+      },
+      "response": []
+    },
+    {
+      "name": "Create Fine Tuning",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{GROQ_API_KEY}}",
+            "disabled": false
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"input_file_id\": \"{{file_id}}\", \"name\": \"test-1\", \"type\": \"lora\", \"base_model\": \"llama-3.1-8b-instant\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://api.groq.com/v1/fine_tunings",
+          "protocol": "https",
+          "host": [
+            "api",
+            "groq",
+            "com"
+          ],
+          "path": [
+            "v1",
+            "fine_tunings"
+          ]
+        },
+        "description": "Generated from cURL: curl -X POST \"https://api.groq.com/v1/fine_tunings\" -H \"Authorization: Bearer {{GROQ_API_KEY}}\" -H \"Content-Type: application/json\" -d '{\"input_file_id\": \"{{file_id}}\", \"name\": \"test-1\", \"type\": \"lora\", \"base_model\": \"llama-3.1-8b-instant\"}'"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Fine Tuning",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{GROQ_API_KEY}}",
+            "disabled": false
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "url": {
+          "raw": "https://api.groq.com/v1/fine_tunings/{{fine_tuning_id}}",
+          "protocol": "https",
+          "host": [
+            "api",
+            "groq",
+            "com"
+          ],
+          "path": [
+            "v1",
+            "fine_tunings",
+            "{{fine_tuning_id}}"
+          ]
+        },
+        "description": "Generated from cURL: curl -X GET \"https://api.groq.com/v1/fine_tunings/{{fine_tuning_id}}\" -H \"Authorization: Bearer {{GROQ_API_KEY}}\" -H \"Content-Type: application/json\""
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Fine Tuning",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{GROQ_API_KEY}}",
+            "disabled": false
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "url": {
+          "raw": "https://api.groq.com/v1/fine_tunings/{{fine_tuning_id}}",
+          "protocol": "https",
+          "host": [
+            "api",
+            "groq",
+            "com"
+          ],
+          "path": [
+            "v1",
+            "fine_tunings",
+            "{{fine_tuning_id}}"
+          ]
+        },
+        "description": "Generated from cURL: curl -X DELETE \"https://api.groq.com/v1/fine_tunings/{{fine_tuning_id}}\" -H \"Authorization: Bearer {{GROQ_API_KEY}}\" -H \"Content-Type: application/json\""
+      },
+      "response": []
+    }
+  ]
+}
