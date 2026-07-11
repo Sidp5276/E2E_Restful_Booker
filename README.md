@@ -180,7 +180,7 @@ Health Verification
 - Postman Collection Design
 
 ---
-QA Automation Engineer
+QA Automation
 
 Focused on API Testing, Test Automation, Reliability Engineering, and Quality Assurance Best Practices.
 
