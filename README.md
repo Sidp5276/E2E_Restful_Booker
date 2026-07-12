@@ -169,7 +169,7 @@ Health Verification
 
 ---
 
-## Key Learnings
+## Key Learning
 
 - End-to-End API Workflow Validation
 - REST API Testing Best Practices
